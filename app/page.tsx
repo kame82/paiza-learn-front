@@ -12,8 +12,8 @@ export default function Home() {
 
   const fetchPosts = async () => {
     try {
-      // const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts`);
-      const response = await fetch("https://paiza-learn-back.onrender.com/posts");
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts`);
+      // const response = await fetch("https://paiza-learn-back.onrender.com/posts");
       if (!response.ok) {
         throw new Error("データの取得に失敗しました");
       }
@@ -31,8 +31,8 @@ export default function Home() {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      // const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts`, {
-      const response = await fetch("https://paiza-learn-back.onrender.com/posts", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts`, {
+        // const response = await fetch("https://paiza-learn-back.onrender.com/posts", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
