@@ -4,7 +4,8 @@ import React, { useState } from "react";
 import { useRef } from "react";
 // import ReactDOM from "react-dom";
 import Editor from "@monaco-editor/react";
-
+// import Editor, { Monaco, useMonaco, } from "@monaco-editor/react";
+import * as monaco from "monaco-editor";
 import { executeCode } from "./api/pistonAPI";
 
 // type Post = {
