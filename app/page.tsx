@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { useRef } from "react";
 // import ReactDOM from "react-dom";
 import Editor from "@monaco-editor/react";
-// import Editor, { Monaco, useMonaco, } from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
 import { executeCode } from "./api/pistonAPI";
 
@@ -57,7 +56,8 @@ export default function Home() {
   // };
   const [value, setValue] = useState("");
 
-  const editorRef = useRef(null);
+  // const editorRef = useRef(null);
+  const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
   function handleEditorDidMount(
     editor: monaco.editor.IStandaloneCodeEditor,
     _monaco: typeof monaco
@@ -66,11 +66,10 @@ export default function Home() {
   }
 
   async function showValue() {
+    if (!editorRef.current) {
+      return;
+    }
     const jsCode = editorRef.current.getValue();
-    // const result = new Function(jsCode)();
-    // result;
-    // setValue(String(result));
-    // const code = await executeCode("ruby", jsCode);
     const code = await executeCode("ruby", jsCode);
     setValue(code.run.output);
   }
