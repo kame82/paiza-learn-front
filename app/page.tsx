@@ -57,7 +57,10 @@ export default function Home() {
   const [value, setValue] = useState("");
 
   const editorRef = useRef(null);
-  function handleEditorDidMount(editor, monaco) {
+  function handleEditorDidMount(
+    editor: monaco.editor.IStandaloneCodeEditor,
+    _monaco: typeof monaco
+  ) {
     editorRef.current = editor;
   }
 
