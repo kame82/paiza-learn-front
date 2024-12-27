@@ -1,7 +1,8 @@
 "use client";
-import React, { use, useEffect, useState } from "react";
+// import React, { use, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useRef } from "react";
-import ReactDOM from "react-dom";
+// import ReactDOM from "react-dom";
 import Editor from "@monaco-editor/react";
 
 import { executeCode } from "./api/pistonAPI";
@@ -56,7 +57,7 @@ export default function Home() {
   const [value, setValue] = useState("");
 
   const editorRef = useRef(null);
-  function handleEditorDidMount(editor, monaco) {
+  function handleEditorDidMount(editor) {
     editorRef.current = editor;
   }
 
