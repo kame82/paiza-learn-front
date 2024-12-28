@@ -1,19 +1,9 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
-// import Editor from "@monaco-editor/react";
-import dynamic from "next/dynamic";
+import Editor from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
 import { executeCode } from "./api/pistonAPI";
-
-// 動的に Monaco Editor をインポート
-const Editor = dynamic(() => import("@monaco-editor/react"), { ssr: false });
-
-// Monaco Editorを動的にインポート
-// const Editor = dynamic(() => import("@monaco-editor/react"), {
-//   ssr: false, // SSRを無効化
-//   loading: () => <div>Loading Editor...</div>,
-// });
 
 export default function Home() {
   const [value, setValue] = useState("");
@@ -33,6 +23,7 @@ export default function Home() {
   }
 
   useEffect(() => {
+    // 言語が変更されたときに初期値を設定;
     const defaultMessage = (lang: string) => {
       switch (lang) {
         case "ruby":
@@ -43,10 +34,7 @@ export default function Home() {
           return "# Hello World";
       }
     };
-
     if (editorRef.current) {
-      const model = editorRef.current.getModel() as monaco.editor.ITextModel; // モデルを取得
-      monaco.editor.setModelLanguage(model, language); // 言語を変更
       editorRef.current.setValue(defaultMessage(language));
     }
   }, [language]);
@@ -81,7 +69,7 @@ export default function Home() {
       <Editor
         height="40vh"
         className="max-w-4xl w-full mx-auto mt-4"
-        defaultLanguage={language}
+        language={language}
         defaultValue="# Hello World"
         theme="vs-dark"
         onMount={handleEditorDidMount}
