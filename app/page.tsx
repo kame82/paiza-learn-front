@@ -19,6 +19,14 @@ export default function Home() {
     setLoading(false);
   };
 
+  const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
+  function handleEditorDidMount(
+    editor: monaco.editor.IStandaloneCodeEditor,
+    _monaco: typeof monaco
+  ) {
+    editorRef.current = editor;
+  }
+
   useEffect(() => {
     const defaultMessage = (lang: string) => {
       switch (lang) {
@@ -37,14 +45,6 @@ export default function Home() {
       editorRef.current.setValue(defaultMessage(language));
     }
   }, [language]);
-
-  const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
-  function handleEditorDidMount(
-    editor: monaco.editor.IStandaloneCodeEditor,
-    _monaco: typeof monaco
-  ) {
-    editorRef.current = editor;
-  }
 
   async function showValue() {
     setLoading(true);
