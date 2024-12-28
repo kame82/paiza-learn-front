@@ -65,16 +65,16 @@ export default function Home() {
           <select
             value={language}
             onChange={(e) => setLanguage(e.target.value)}
-            className="mt-1 block w-full rounded-md border border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            className="mt-1 cursor-pointer block w-full rounded-md border border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
           >
-            <option value="ruby">Ruby ("3.0.1")</option>
-            <option value="javascript">JavaScript ("18.15.0")</option>
+            <option value="ruby">{`Ruby ("3.0.1")`}</option>
+            <option value="javascript">{`JavaScript ("18.15.0")`}</option>
           </select>
         </div>
       </div>
       <Editor
         height="40vh"
-        className="max-w-4xl w-full mx-auto"
+        className="max-w-4xl w-full mx-auto mt-4"
         defaultLanguage={language}
         defaultValue="# Hello World"
         theme="vs-dark"
