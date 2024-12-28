@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useRef } from "react";
-import Editor from "@monaco-editor/react";
+// import Editor from "@monaco-editor/react";
 import dynamic from "next/dynamic";
 import * as monaco from "monaco-editor";
 import { executeCode } from "./api/pistonAPI";
@@ -11,7 +11,7 @@ import { executeCode } from "./api/pistonAPI";
 // const Editor = dynamic(() => import("@monaco-editor/react"), { ssr: false });
 
 // Monaco Editorを動的にインポート
-const MonacoEditor = dynamic(() => import("@monaco-editor/react"), {
+const Editor = dynamic(() => import("@monaco-editor/react"), {
   ssr: false, // SSRを無効化
   loading: () => <div>Loading Editor...</div>,
 });
