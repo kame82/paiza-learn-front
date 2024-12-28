@@ -1,7 +1,16 @@
-export const executeCode = async (language: string, execCode: string) => {
+export const executeCode = async (
+  language: string,
+  execCode: string,
+  handleComplete: () => void
+) => {
+  const LangVersion: { [key: string]: string } = {
+    ruby: "3.0.1",
+    javascript: "18.15.0",
+  };
+
   const body = {
     language: language,
-    version: "3.0.1", //ruby_ver
+    version: LangVersion[language],
     files: [
       {
         content: execCode,
@@ -18,9 +27,11 @@ export const executeCode = async (language: string, execCode: string) => {
       throw new Error("コードの実行に失敗しました");
     }
     const data = await response.json();
+    handleComplete();
     return data;
   } catch (error) {
     console.error(error);
+    handleComplete();
     throw error;
   }
 };

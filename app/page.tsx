@@ -1,62 +1,42 @@
 "use client";
-// import React, { use, useEffect, useState } from "react";
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import { useRef } from "react";
-// import ReactDOM from "react-dom";
 import Editor from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
 import { executeCode } from "./api/pistonAPI";
 
-// type Post = {
-//   id: number;
-//   title: string;
-// };
-
 export default function Home() {
-  // const [posts, setPosts] = useState<Post[]>([]);
-  // const [newTitle, setNewTitle] = useState("");
-
-  // const fetchPosts = async () => {
-  //   try {
-  //     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts`);
-  //     // const response = await fetch("https://paiza-learn-back.onrender.com/posts");
-  //     if (!response.ok) {
-  //       throw new Error("データの取得に失敗しました");
-  //     }
-  //     const data = await response.json();
-  //     setPosts(data);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchPosts();
-  // }, []);
-
-  // const handleSubmit = async (event: React.FormEvent) => {
-  //   event.preventDefault();
-  //   try {
-  //     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts`, {
-  //       // const response = await fetch("https://paiza-learn-back.onrender.com/posts", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ title: newTitle }),
-  //     });
-  //     if (!response.ok) {
-  //       throw new Error("投稿に失敗しました");
-  //     }
-  //     setNewTitle("");
-  //     fetchPosts();
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
   const [value, setValue] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [language, setLanguage] = useState("ruby");
 
-  // const editorRef = useRef(null);
+  const handleComplete = () => {
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    const defaultMessage = (lang: string) => {
+      switch (lang) {
+        case "ruby": {
+          return "# Hello World";
+        }
+        case "javascript": {
+          return "// Hello World";
+        }
+        default: {
+          return "# Hello World";
+        }
+      }
+    };
+
+    if (editorRef.current) {
+      const model = editorRef.current.getModel() as monaco.editor.ITextModel; // モデルを取得
+      monaco.editor.setModelLanguage(model, language); // 言語を変更
+      editorRef.current.setValue(defaultMessage(language));
+    }
+  }, [language]);
+
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
   function handleEditorDidMount(
     editor: monaco.editor.IStandaloneCodeEditor,
@@ -66,48 +46,58 @@ export default function Home() {
   }
 
   async function showValue() {
+    setLoading(true);
     if (!editorRef.current) {
+      handleComplete();
       return;
     }
     const jsCode = editorRef.current.getValue();
-    const code = await executeCode("ruby", jsCode);
+    const code = await executeCode(language, jsCode, handleComplete);
     setValue(code.run.output);
+    handleComplete();
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24">
+    <main className="flex min-h-screen flex-col items-center justify-center md:p-24 p-8">
       <h2 className="text-3xl mb-4">コードエディター</h2>
+      <div className="mx-auto w-full max-w-xs text-gray-800">
+        <div className="mt-1">
+          <select
+            value={language}
+            onChange={(e) => setLanguage(e.target.value)}
+            className="mt-1 block w-full rounded-md border border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          >
+            <option value="ruby">Ruby ("3.0.1")</option>
+            <option value="javascript">JavaScript ("18.15.0")</option>
+          </select>
+        </div>
+      </div>
       <Editor
-        height="20vh"
-        defaultLanguage="ruby"
+        height="40vh"
+        className="max-w-4xl w-full mx-auto"
+        defaultLanguage={language}
         defaultValue="# Hello World"
         theme="vs-dark"
         onMount={handleEditorDidMount}
       />
-      <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        onClick={showValue}
-      >
-        Button
-      </button>
-      <textarea className="w-1/2 h-1/2 p-2 border text-black" readOnly={true} value={value} />
-      {/* <form onSubmit={handleSubmit} className="mt-4 mb-4">
-        <input
-          type="text"
-          value={newTitle}
-          onChange={(e) => setNewTitle(e.target.value)}
-          placeholder="新しい投稿のタイトル"
-          className="mr-2 p-2 border"
-        />
-        <button type="submit" className="p-2 bg-blue-500 text-white">
-          投稿する
+      {loading || (
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+          onClick={showValue}
+        >
+          実行
         </button>
-      </form>
-      <ul>
-        {posts.map((post) => (
-          <li key={post.id}>{post.title}</li>
-        ))}
-      </ul> */}
+      )}
+      {loading && (
+        <div className="flex justify-center" aria-label="読み込み中">
+          <div className="animate-spin h-10 w-10 border-4 border-blue-500 rounded-full border-t-transparent mt-4"></div>
+        </div>
+      )}
+      <textarea
+        className="max-w-2xl w-full mx-auto md:h-40 h-20 p-2 border text-black mt-8"
+        readOnly={true}
+        value={value}
+      />
     </main>
   );
 }
