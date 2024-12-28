@@ -18,15 +18,12 @@ export default function Home() {
   useEffect(() => {
     const defaultMessage = (lang: string) => {
       switch (lang) {
-        case "ruby": {
+        case "ruby":
           return "# Hello World";
-        }
-        case "javascript": {
+        case "javascript":
           return "// Hello World";
-        }
-        default: {
+        default:
           return "# Hello World";
-        }
       }
     };
 
