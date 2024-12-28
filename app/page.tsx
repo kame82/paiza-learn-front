@@ -2,9 +2,13 @@
 
 import React, { useEffect, useState } from "react";
 import { useRef } from "react";
-import Editor from "@monaco-editor/react";
+// import Editor from "@monaco-editor/react";
+import dynamic from "next/dynamic";
 import * as monaco from "monaco-editor";
 import { executeCode } from "./api/pistonAPI";
+
+// 動的に Monaco Editor をインポート
+const Editor = dynamic(() => import("@monaco-editor/react"), { ssr: false });
 
 export default function Home() {
   const [value, setValue] = useState("");
