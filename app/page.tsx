@@ -1,20 +1,19 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 // import Editor from "@monaco-editor/react";
 import dynamic from "next/dynamic";
 import * as monaco from "monaco-editor";
 import { executeCode } from "./api/pistonAPI";
 
 // 動的に Monaco Editor をインポート
-// const Editor = dynamic(() => import("@monaco-editor/react"), { ssr: false });
+const Editor = dynamic(() => import("@monaco-editor/react"), { ssr: false });
 
 // Monaco Editorを動的にインポート
-const Editor = dynamic(() => import("@monaco-editor/react"), {
-  ssr: false, // SSRを無効化
-  loading: () => <div>Loading Editor...</div>,
-});
+// const Editor = dynamic(() => import("@monaco-editor/react"), {
+//   ssr: false, // SSRを無効化
+//   loading: () => <div>Loading Editor...</div>,
+// });
 
 export default function Home() {
   const [value, setValue] = useState("");

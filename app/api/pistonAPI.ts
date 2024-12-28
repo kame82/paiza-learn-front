@@ -1,5 +1,3 @@
-"use client";
-
 export const executeCode = async (
   language: string,
   execCode: string,
