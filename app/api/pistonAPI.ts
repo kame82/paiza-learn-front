@@ -1,9 +1,9 @@
-"use client";
+// "use client";
 
 export const executeCode = async (
   language: string,
-  execCode: string,
-  handleComplete: () => void
+  execCode: string
+  // handleComplete: () => void
 ) => {
   const LangVersion: { [key: string]: string } = {
     ruby: "3.0.1",
@@ -29,11 +29,11 @@ export const executeCode = async (
       throw new Error("コードの実行に失敗しました");
     }
     const data = await response.json();
-    handleComplete();
+    // handleComplete();
     return data;
   } catch (error) {
     console.error(error);
-    handleComplete();
+    // handleComplete();
     throw error;
   }
 };

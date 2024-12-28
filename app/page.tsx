@@ -49,7 +49,7 @@ export default function Home() {
       return;
     }
     const jsCode = editorRef.current.getValue();
-    const code = await executeCode(language, jsCode, handleComplete);
+    const code = await executeCode(language, jsCode);
     setValue(code.run.output);
     handleComplete();
   }
