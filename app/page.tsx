@@ -30,6 +30,8 @@ export default function Home() {
           return "# Hello World";
         case "javascript":
           return "// Hello World";
+        case "python":
+          return "# Hello World";
         default:
           return "# Hello World";
       }
@@ -66,6 +68,7 @@ export default function Home() {
             >
               <option value="ruby">{`Ruby ("3.0.1")`}</option>
               <option value="javascript">{`JavaScript ("18.15.0")`}</option>
+              <option value="python">{`Python ("3.10.0")`}</option>
             </select>
           </div>
         </div>

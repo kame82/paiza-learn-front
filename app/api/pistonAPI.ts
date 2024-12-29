@@ -8,6 +8,7 @@ export const executeCode = async (
   const LangVersion: { [key: string]: string } = {
     ruby: "3.0.1",
     javascript: "18.15.0",
+    python: "3.10.0",
   };
 
   const body = {
